@@ -32,15 +32,9 @@ type MockMokeRepo struct {
 	CustomErrorResult0 m.MyError
 }
 
-func (m *MockMokeRepo) NoArgs() error {
-	return m.NoArgsResult0
-}
-func (m *MockMokeRepo) Moke() (string, error) {
-	return m.MokeResult0, m.MokeResult1
-}
-func (m *MockMokeRepo) CustomError() m.MyError {
-	return m.CustomErrorResult0
-}
+func (m *MockMokeRepo) NoArgs() error                           { return m.NoArgsResult0 }
+func (m *MockMokeRepo) Moke(a, b string, c int) (string, error) { return m.MokeResult0, m.MokeResult1 }
+func (m *MockMokeRepo) CustomError() m.MyError                  { return m.CustomErrorResult0 }
 `
 
 	g := New()

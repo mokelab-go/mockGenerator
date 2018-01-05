@@ -79,6 +79,7 @@ func (g *generator) Generate(src string) (string, error) {
 						},
 					},
 					Type: &ast.FuncType{
+						Params:  fType.Params,
 						Results: fType.Results,
 					},
 					Body: &ast.BlockStmt{
