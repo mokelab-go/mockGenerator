@@ -59,9 +59,18 @@ func (g *generator) Generate(src string) (string, error) {
 				methodName := method.Names[0].Name
 
 				fType := method.Type.(*ast.FuncType)
-				results := make([]ast.Expr, 0, len(fType.Results.List))
-				for i := range fType.Results.List {
-					results = append(results, ast.NewIdent(fmt.Sprintf("m.%sResult%d", methodName, i)))
+				var results []ast.Expr
+				if fType.Results != nil {
+					results = make([]ast.Expr, 0, len(fType.Results.List))
+					for i, t := range fType.Results.List {
+						results = append(results, ast.NewIdent(fmt.Sprintf("m.%sResult%d", methodName, i)))
+						fieldList = append(fieldList, &ast.Field{
+							Names: []*ast.Ident{
+								ast.NewIdent(fmt.Sprintf("%sResult%d", methodName, i)),
+							},
+							Type: t.Type,
+						})
+					}
 				}
 
 				methodList = append(methodList, &ast.FuncDecl{
@@ -90,15 +99,6 @@ func (g *generator) Generate(src string) (string, error) {
 						},
 					},
 				})
-
-				for i, t := range fType.Results.List {
-					fieldList = append(fieldList, &ast.Field{
-						Names: []*ast.Ident{
-							ast.NewIdent(fmt.Sprintf("%sResult%d", methodName, i)),
-						},
-						Type: t.Type,
-					})
-				}
 			}
 			structDecl := &ast.GenDecl{
 				Tok: token.TYPE,

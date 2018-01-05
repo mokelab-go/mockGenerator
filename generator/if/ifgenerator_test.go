@@ -13,6 +13,7 @@ import (
 // +mock	
 // MokeRepo is a repository
 type MokeRepo interface {
+	NoResult()
 	NoArgs() error
 	Moke(a, b string, c int) (string, error)
 	CustomError() m.MyError
@@ -32,6 +33,7 @@ type MockMokeRepo struct {
 	CustomErrorResult0 m.MyError
 }
 
+func (m *MockMokeRepo) NoResult()                               { return }
 func (m *MockMokeRepo) NoArgs() error                           { return m.NoArgsResult0 }
 func (m *MockMokeRepo) Moke(a, b string, c int) (string, error) { return m.MokeResult0, m.MokeResult1 }
 func (m *MockMokeRepo) CustomError() m.MyError                  { return m.CustomErrorResult0 }
