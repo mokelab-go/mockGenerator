@@ -191,7 +191,6 @@ func isMockInterface(decl *ast.GenDecl, cMap ast.CommentMap) bool {
 	for _, c := range comments {
 		c2 := strings.SplitN(c.Text(), "\n", -1)
 		for _, t := range c2 {
-			fmt.Printf("comment=%s\n", t)
 			if t == "+mock" {
 				return true
 			}
